@@ -1,7 +1,7 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const Product = require('./models/product.model');
+const connectToDB = require('./mongoose');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require('dotenv').config();
 
@@ -11,17 +11,29 @@ app.use(express.json());
 const port  = process.env.PORT || 3000;
 const localhostUrl = `http://localhost:${port}`;
 
-//Connect to MongoDB
-mongoose.connect(process.env.MONGO_DB,
-{useNewUrlParser: true, useUnifiedTopology: true}).then(() => console.log('MongoDB is Connected'));
-
 // Products Database Fetch
 app.get('/products', async (req, res) => {
     try {
+        connectToDB();
         const amazonProducts = await Product.find();
         res.json(amazonProducts);
     } catch (error) {
-        res.status(500).send({ message: "An error occurred while fetching the courses", error: error.message });
+        res.status(500).send({ message: "An error occurred while fetching the products", error: error.message });
+    }
+});
+
+// Product details by ID
+app.get('/products/details/:id', async (req, res) => {
+    try {
+        connectToDB();
+        const productID = req.params.id;
+        const amazonproduct = await Product.findById(productID);
+        if(!amazonproduct){
+            res.status(404).json({message: 'Procut Details not found'});
+        }
+        res.json(amazonproduct);
+    } catch (error) {
+        res.status(500).send({ message: "An error occurred while fetching the product details", error: error.message });
     }
 });
 
