@@ -4,8 +4,8 @@ const Product = require('./models/product.model');
 const connectToDB = require('./mongoose');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require('dotenv').config();
-const {isValidAmazonProductURL} = require('./lib/utils/valid_url_check');
-const {scrapeAmazonProduct} = require('./lib/scraper');
+const isValidAmazonProductURL = require('./lib/utils/valid_url_check');
+const scrapeAmazonProduct = require('./lib/scraper');
 
 const app = express();
 app.use(cors());
@@ -55,10 +55,10 @@ app.get('/products/similar/product/:id', async (req, res) => {
 });
 
 // Insert amazon product
-app.post('/products/amazon', async (req, res) => {
+app.post('/products/amazon/:url', async (req, res) => {
     try {
         console.log("Hello");
-        const {amazonurl} = req.body;
+        const amazonurl = req.body.url;
         const validURL = isValidAmazonProductURL(amazonurl);
         if(!validURL){
             res.status(404).json({message: "Enter a valid amazon URL"});
