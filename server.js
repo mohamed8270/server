@@ -55,10 +55,10 @@ app.get('/products/similar/product/:id', async (req, res) => {
 });
 
 // Insert amazon product
-app.post('/products/amazon/:url', async (req, res) => {
+app.post('/products/amazon', async (req, res) => {
     try {
         console.log("Hello");
-        const amazonurl = req.body.url;
+        const {amazonurl} = req.body;
         const validURL = isValidAmazonProductURL(amazonurl);
         if(!validURL){
             res.status(404).json({message: "Enter a valid amazon URL"});
