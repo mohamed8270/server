@@ -56,8 +56,9 @@ app.get('/products/similar/product/:id', async (req, res) => {
 
 // Insert amazon product
 app.post('/products/amazon', async (req, res) => {
-    const amazonurl = req.body.url;
-    console.log(amazonurl);
+    // const amazonurl = req.body.url;
+    // console.log(amazonurl);
+    const amazonurl = 'https://www.amazon.in/EvoFox-Programmable-Ultra-Responsive-Sensitive-Software/dp/B0CLS6F44T/ref=sr_1_6?crid=2GECRIAPSUJMT&dib=eyJ2IjoiMSJ9.GYCGZqovsiOsUYIPNYMXWxdZIQq3F7SonudQxkpkDDSw2Zhs7vpIqPcboIHYgp1eWID1NoS7Qx5B2BPdOMMyaKH6es_o0nf0vIvNpo-UIT7GKEbAjOMAj_YDZzrs3xsw8_seDjEsS-mQgwfcc3YuXO9osCATSTcGoMKip5tiCq47Xh95OCZlpUEl9jA4zSDyPKgnTwLfzc7v0Cc0eC9E6T-Aj99Y_uR_QM2oomEWY5c.vQxAhfuWIVPn3u1Be3Go-o7Inqxes_a6up6V9EU6deI&dib_tag=se&keywords=gaming+mouse&qid=1713699320&sprefix=gaming%2Caps%2C386&sr=8-6';
     try {
         console.log("Hello");
         const validURL = isValidAmazonProductURL(amazonurl);
