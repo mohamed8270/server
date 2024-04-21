@@ -59,8 +59,10 @@ app.post('/products/amazon', async (req, res) => {
     try {
         console.log("Hello");
         const {amazonurl} = req.body;
+        console.log(amazonurl);
         const validURL = isValidAmazonProductURL(amazonurl);
-        if(!validURL){
+        console.log(validURL);
+        if(validURL === false){
             res.status(404).json({message: "Enter a valid amazon URL"});
         }
         const scrapeamazondata = await scrapeAmazonProduct(amazonurl);
