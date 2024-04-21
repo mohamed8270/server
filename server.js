@@ -37,6 +37,20 @@ app.get('/products/details/:id', async (req, res) => {
     }
 });
 
+// Get similar products
+app.get('/products/similar/product/:id', async (req, res) => {
+    try {
+        connectToDB();
+        const productID = req.params.id;
+        const similarproduct = await Product.find({_id: {$ne: productID},}).limit(10);
+        if(!similarproduct){
+            res.status(404).json({message: 'Product not found'});
+        }
+        res.json(similarproduct);
+    } catch (error) {
+        res.status(500).send({ message: "An error occurred while fetching the product details", error: error.message });
+    }
+});
 
 // GenAI
 const apikey = process.env.API_KEY;
@@ -50,7 +64,7 @@ app.post('/generate', async (req, res) => {
 
     try {
         const result = await model.generateContent(prompt);
-        const response = await result.response;
+        const response = result.response;
         const text = response.text();
 
         res.json({
