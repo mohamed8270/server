@@ -68,6 +68,7 @@ app.post('/products/amazon', async (req, res) => {
         }
         const scrapeamazondata = await scrapeAmazonProduct(amazonurl);
         console.log(scrapeamazondata);
+        res.json(scrapeAmazonProduct);
     } catch (error) {
         res.status(500).send({ message: "An error occurred while getting the product details", error: error.message });
     }
