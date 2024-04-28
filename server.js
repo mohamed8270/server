@@ -6,7 +6,7 @@ const connectToDB = require('./mongoose');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require('dotenv').config();
 const isValidAmazonProductURL = require('./lib/utils/valid_url_check');
-const scrapeAmazonProduct = require('./lib/scraper');
+const { scrapeAndStoreProduct } = require('./lib/actions');
 
 const app = express();
 app.use(cors());
@@ -66,9 +66,9 @@ app.post('/products/amazon', async (req, res) => {
         if(!validURL){
             res.status(404).json({message: "Enter a valid amazon URL"});
         }
-        const scrapeamazondata = await scrapeAmazonProduct(amazonurl);
+        const scrapeamazondata = await scrapeAndStoreProduct(amazonurl);
         console.log(scrapeamazondata);
-        res.json(scrapeAmazonProduct);
+        res.json(scrapeamazondata);
     } catch (error) {
         res.status(500).send({ message: "An error occurred while getting the product details", error: error.message });
     }
