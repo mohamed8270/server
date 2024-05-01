@@ -6,7 +6,7 @@ const connectToDB = require('./mongoose');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require('dotenv').config();
 const isValidAmazonProductURL = require('./lib/utils/valid_url_check');
-const { scrapeAndStoreProduct } = require('./lib/actions');
+const { scrapeAndStoreProduct, addUserEmailToProduct } = require('./lib/actions');
 
 const app = express();
 app.use(cors());
@@ -73,6 +73,24 @@ app.post('/products/amazon', async (req, res) => {
         res.json(scrapeamazondata);
     } catch (error) {
         res.status(500).send({ message: "An error occurred while getting the product details", error: error.message });
+    }
+});
+
+// Add email address
+app.post('/products/email', async (req, res) => {
+    const productId = req.body.productId;
+    const email = req.body.email;
+    console.log(productId,email);
+    try {
+        const sendEmail = await addUserEmailToProduct(productId, email);
+        if(!sendEmail) {
+            res.status(404).json({message: "Email required!"});
+            return;
+        }
+        console.log(sendEmail);
+        res.json(sendEmail);
+    } catch (error) {
+        res.status(500).send({ message: "An error occurred sending mail", error: error.message });
     }
 });
 
