@@ -81,15 +81,28 @@ const apikey = process.env.API_KEY;
 const genAI = new GoogleGenerativeAI(apikey);
 const model = genAI.getGenerativeModel({model: "gemini-pro"});
 
+//chatHistory
+let chatHistory = [];
+
 app.post('/generate', async (req, res) => {
-    const prompt = req.body.prompt;
-    console.log(prompt);
+    const userMessage = req.body.message;
+    console.log(userMessage);
     // const prompt = "Write me syllabus for college level algebra";
 
+    chatHistory.push({role: "user", parts: [{text: userMessage}]});
+
     try {
-        const result = await model.generateContent(prompt);
-        const response = result.response;
+        const chat = model.startChat({
+            history: chatHistory,
+            generationConfig: {
+                maxOutputTokens: 100,
+            },
+        });
+        const result = await chat.sendMessage(userMessage);
+        const response = await result.response;
         const text = response.text();
+
+        chatHistory.push({role: "model", parts: [{ text }]});
 
         res.json({
             status: 'success',
