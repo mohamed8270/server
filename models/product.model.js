@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     originalPrice: {type: Number, required: true},
     priceHistory: [
         {
-            prices: {type: Number, required: true},
+            price: {type: Number, required: true},
             Date: {type: Date, default: Date.now},
         },
     ],
@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
     category: {type: String},
     reviewsCount: {type: Number},
     brand: {type: String},
-    isOutOfStock: {type: String},
+    isOutOfStock: {type: Boolean, default: false},
     users: [
         {
             email: {type: String, required: true},
