@@ -88,7 +88,7 @@ app.post('/products/email', async (req, res) => {
             return;
         }
         console.log(sendEmail);
-        res.json(sendEmail);
+        res.status(200).json({message: `Data sent successfuly ${sendEmail}`});
     } catch (error) {
         res.status(500).send({ message: "An error occurred sending mail", error: error.message });
     }
