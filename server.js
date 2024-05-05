@@ -83,10 +83,10 @@ app.post('/products/email', async (req, res) => {
     console.log(productId,email);
     try {
         const sendEmail = await addUserEmailToProduct(productId, email);
-        if(!sendEmail) {
-            res.status(404).json({message: "Email required!"});
-            return;
-        }
+        // if(!sendEmail) {
+        //     res.status(404).json({message: "Email required!"});
+        //     return;
+        // }
         console.log(sendEmail);
         res.status(200).json({message: `Data sent successfuly ${sendEmail}`});
     } catch (error) {
