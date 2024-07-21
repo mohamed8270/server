@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "rewrites": [
+        {"source": "/(.*)", "destination": "server/server.js"}
+    ],
+    "functions": {
+        "server/controllers/*.js": {
+            "maxDuration": 60,
+            "dynamic": "force-dynamic",
+            "revalidate": 0
+        }
+    }
+}
